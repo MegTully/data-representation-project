@@ -91,6 +91,15 @@ ipython_config.py
 #   install all needed dependencies.
 #Pipfile.lock
 
+#Environments
+venv/
+.env
+.venv
+env/
+ENV/
+env.bak/
+venv.bak/
+
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow
 __pypackages__/
 
@@ -127,3 +136,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# my configuration files
+dbconfig.py
