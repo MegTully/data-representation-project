@@ -31,7 +31,7 @@ class rateDAO:
          
     def create(self, values):
         cursor = self.getcursor()
-        sql=""
+        sql="insert into Christmas Movies (title, genre) values (%s,%s)"
         cursor.execute(sql, values)
 
         self.connection.commit()
@@ -43,11 +43,28 @@ class rateDAO:
 
     def createtable(self):
         cursor = self.getcursor()
-        sql="create table rate (id int AUTO_INCREMENT NOT NULL PRIMARY KEY,ChristmasMoviesTitle varchar(250), ipaddress varchar (250))"
-        cursor.execute(sql, values)
+        sql="create table Christmas Movies (id int AUTO_INCREMENT NOT NULL PRIMARY KEY, Title varchar(250), genre varchar (250))"
+        cursor.execute(sql)
 
         self.connection.commit()
-        newid = cursor.lastrowid
         self.closeAll()
 
-rateDAO = rateDAO()
+    def createdatabase(self):
+        self.connection = mysql.connector.connect(
+            host=       self.host,
+            user=       self.user,
+            password=   self.password   
+        )
+        self.cursor = self.connection.cursor()
+        sql = "create database"+ self.database
+        self.cursor.execute(sql)
+
+        self.connection.commit()
+        self.closeAll()
+
+rateDao = rateDAO()
+
+if __name__ == "__main__":
+    rateDAO.createdatabase()
+    rateDao.createtable()
+    print("Done")
