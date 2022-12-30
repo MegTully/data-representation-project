@@ -1,6 +1,10 @@
 <html>
     <head>
         <title>View Christmas Movies</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+       
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
     <body>
         <h1>Christmas Movies</h1>
@@ -208,6 +212,82 @@
             document.getElementById("movieTable").style.display = "block"
             
         }
+
+        function getAllAjax(){
+        $.ajax({
+            "url": "http://127.0.0.1:5000/ChristmasMovies",
+            "method":"GET",
+            "data":"",
+            "dataType": "JSON",
+            "success":function(result){
+                //console.log(result);
+                for (movie of result){
+                    addMovieToTable(movie);
+                }
+                
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+
+    }
+    function createMovieAjax(movie){
+        console.log(JSON.stringify(movie));
+        $.ajax({
+            "url": "http://127.0.0.1:5000/ChristmasMovies",
+            "method":"POST",
+            "data":JSON.stringify(movie),
+            "dataType": "JSON",
+            contentType: "application/json; charset=utf-8",
+            "success":function(result){
+                //console.log(result);
+                movie.id = result.id
+                addMovieToTable(movie)
+                clearForm()
+                showViewAll()
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+    function updateMovieAjax(movie){
+        console.log(JSON.stringify(movie));
+        $.ajax({
+            "url": "http://127.0.0.1:5000/ChristmasMovies/"+encodeURI(movie.id),
+            "method":"PUT",
+            "data":JSON.stringify(movie),
+            "dataType": "JSON",
+            contentType: "application/json; charset=utf-8",
+            "success":function(result){
+               // console.log(result);
+                  
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+    function deleteMovieAjax(id){
+        
+        //console.log(JSON.stringify('deleting '+id));
+        $.ajax({
+            "url": "http://127.0.0.1:5000/ChristmasMovies/"+encodeURI(id),
+            "method":"DELETE",
+            "data":"",
+            "dataType": "JSON",
+            contentType: "application/json; charset=utf-8",
+            "success":function(result){
+                //console.log(result);
+                  
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+    getAllAjax();
 
     </script>    
     </html>

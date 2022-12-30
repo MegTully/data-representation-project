@@ -8,7 +8,7 @@ ChristmasMovies= [
     {'id':3,'title':'The Polar Express', 'genre':'Family'},
     {'id':4,'title':'A Christmas Carol', 'genre':'Family'},
     {'id':5,'title':'Its a Wonderful Life', 'genre':'Drama'},
-    {'id':6,'title':'elf', 'genre':'Family'},
+    {'id':6,'title':'Elf', 'genre':'Family'},
     {'id':7,'title':'Home Alone 1', 'genre':'Comedy'},
     {'id':8,'title':'Home Alone 2', 'genre':'Comedy'},
     {'id':9,'title':'Home Alone 3', 'genre':'Comedy'},
