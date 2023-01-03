@@ -31,7 +31,7 @@ class ChristmasMovieDAO:
          
     def create(self, values):
         cursor = self.getcursor()
-        sql="insert into Christmasmovies (title, genre) values (%s,%s)"
+        sql="insert into ChristmasMovies (title, genre) values (%s,%s)"
         cursor.execute(sql, values)
 
         self.connection.commit()
@@ -41,7 +41,7 @@ class ChristmasMovieDAO:
    
     def getAll(self):
         cursor = self.getcursor()
-        sql="select * from christmasmovies"
+        sql="select * from christmasMovies"
         cursor.execute(sql)
         results = cursor.fetchall()
         returnArray = []
@@ -55,7 +55,7 @@ class ChristmasMovieDAO:
 
     def findByID(self, id):
         cursor = self.getcursor()
-        sql="select * from christmasmovies where id = %s"
+        sql="select * from christmasMovies where id = %s"
         values = (id,)
 
         cursor.execute(sql, values)
@@ -66,14 +66,14 @@ class ChristmasMovieDAO:
 
     def update(self, values):
         cursor = self.getcursor()
-        sql="update christmasmovies set title= %s, genre=%s  where id = %s"
+        sql="update christmasMovies set title= %s, genre=%s  where id = %s"
         cursor.execute(sql, values)
         self.connection.commit()
         self.closeAll()
         
     def delete(self, id):
         cursor = self.getcursor()
-        sql="delete from christmasmovies where id = %s"
+        sql="delete from christmasMovies where id = %s"
         values = (id,)
 
         cursor.execute(sql, values)
@@ -115,12 +115,12 @@ class ChristmasMovieDAO:
         self.connection.commit()
         self.closeAll()
 
-RateDao = rateDAO()
+ChristmasMovieDao = ChristmasMovieDAO()
 
 if __name__ == "__main__":
-    #RateDao.createdatabase()
-    #RateDao.createtable()
+    #ChristmasMovieDao.createdatabase()
+    #ChristmasMovieDao.createtable()
 
     data = ("Die Hard","Action")
-    RateDao.create(data)
+    ChristmasMovieDao.create(data)
     print("Done")

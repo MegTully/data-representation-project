@@ -56,7 +56,7 @@
                 </tr>
                 <tr id="6">
                     <td>6</td>
-                    <td>elf</td>
+                    <td>Elf</td>
                     <td>Family</td>
                     <td><button onclick="showUpdate(this)">update</button></td>
                     <td><button onclick="doDelete(this)">delete</button></td>
@@ -89,12 +89,13 @@
                     <td><button onclick="showUpdate(this)">update</button></td>
                     <td><button onclick="doDelete(this)">delete</button></td>
                 </tr>
+                
         </table>
         <br/>
         </div>
         <div id = 'createUpdateForm' style="display:none">
             <h2><span id="createLabel">Create a</span> <span id="updateLabel">Update this</span> Movie</h2>
-            id <input type="text" name="id"><br/>
+            <input type="hidden" name="id"/>
             Title <input type="text" name="title"><br/>
             genre <input type="text" name="genre"><br/>
             <span><button id="button-doCreate" onclick="doCreate()">Create</button></span>
@@ -114,17 +115,21 @@
             document.getElementById('button-doUpdate').style.display="none"
         }
         function doCreate(){
-            console.log("Creating a movie") 
-            movie = getMovieFromForm()
-            console.log(movie)
-            addMovieToTable(movie)
-            showViewAll()
-            clearForm()
-        }
+        var form = document.getElementById('createUpdateForm')
+
+        var movie = {}
+       
+        movie.title = form.querySelector('input[name="title"]').value
+        movie.genre = form.querySelector('input[name="genre"]').value
+        console.log(JSON.stringify(movie))
+        createBookAjax(movie)
+        
+        
+    }
+        
         function clearForm(){
             var form = document.getElementById('createUpdateForm')
-            form.querySelector('input[name="id"]').disabled = false
-            form.querySelector('input[name="id"]').value = ''
+          
             form.querySelector('input[name="genre"]').value = ''
             form.querySelector('input[name="title"]').value = ''
         }
@@ -156,7 +161,7 @@
         }
         function getMovieFromRow(rowElement){
             var movie = {}
-            movie.id = rowElement.cells[0].firstChild.textContent
+            movie.id = rowElement.getAttribute('id')
             movie.title = rowElement.cells[1].firstChild.textContent
             movie.genre = rowElement.cells[2].firstChild.textContent
             return movie
@@ -167,6 +172,7 @@
             form.querySelector('input[name="id"]').value = movie.id
             form.querySelector('input[name="title"]').value = movie.title
             form.querySelector('input[name="genre"]').value = movie.genre
+            return movie
         }
         function showUpdate(buttonElement){
             document.getElementById("createUpdateForm").style.display = "block"
@@ -179,11 +185,10 @@
             document.getElementById("button-showCreate").style.display = "none"
             document.getElementById("movieTable").style.display = "none"
 
-            rowElement = buttonElement.parentNode.parentNode
-            //this is a way of finding the closest <tr> which would safer,closest()
-            movie = getMovieFromRow(rowElement)
-            console.log("updating")
-            console.log(movie)
+            var rowElement = buttonElement.parentNode.parentNode
+        // these is a way of finding the closest <tr> which would safer, closest()
+        
+            var movie = getMovieFromRow(rowElement)
             populateFormWithMovie(movie)
         }
         function setMovieInRow(rowElement,movie){
@@ -192,18 +197,19 @@
             rowElement.cells[2].firstChild.textContent = movie.genre
         }
         function doUpdate(){
-            movie = getMovieFromForm()
-            console.log(movie)
-            var rowElement = document.getElementById(movie.id)
-            setMovieInRow(rowElement,movie)
-            clearForm()
-            showViewAll()
+            var movie = getMovieFromForm();
+            var rowElement = document.getElementById(movie.id);
+            updateMovieAjax(movie);
+            setMovieInRow(rowElement,movie);
+            clearForm();
+            showViewAll();
         }
-        function doDelete(buttonElement){
-            console.log("in delete")
-            var tableElement = document.getElementById('movieTable')
-            var index = buttonElement.parentNode.parentNode.rowIndex;
-            tableElement.deleteRow(index);
+        function doDelete(r){
+        var tableElement = document.getElementById('movieTable');
+        var rowElement = r.parentNode.parentNode;
+        var index = rowElement.rowIndex;
+        deleteMovieAjax(rowElement.getAttribute("id"));
+        tableElement.deleteRow(index);
         }
         function showViewAll(){
             document.getElementById("createUpdateForm").style.display = "none"
