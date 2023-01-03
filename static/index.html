@@ -122,10 +122,8 @@
         movie.title = form.querySelector('input[name="title"]').value
         movie.genre = form.querySelector('input[name="genre"]').value
         console.log(JSON.stringify(movie))
-        createBookAjax(movie)
-        
-        
-    }
+        createMovieAjax(movie)
+        }
         
         function clearForm(){
             var form = document.getElementById('createUpdateForm')
@@ -205,11 +203,11 @@
             showViewAll();
         }
         function doDelete(r){
-        var tableElement = document.getElementById('movieTable');
-        var rowElement = r.parentNode.parentNode;
-        var index = rowElement.rowIndex;
-        deleteMovieAjax(rowElement.getAttribute("id"));
-        tableElement.deleteRow(index);
+            var tableElement = document.getElementById('movieTable');
+            var rowElement = r.parentNode.parentNode;
+            var index = rowElement.rowIndex;
+            deleteMovieAjax(rowElement.getAttribute("id"));
+            tableElement.deleteRow(index);
         }
         function showViewAll(){
             document.getElementById("createUpdateForm").style.display = "none"
@@ -220,80 +218,80 @@
         }
 
         function getAllAjax(){
-        $.ajax({
-            "url": "http://127.0.0.1:5000/ChristmasMovies",
-            "method":"GET",
-            "data":"",
-            "dataType": "JSON",
-            "success":function(result){
-                //console.log(result);
-                for (movie of result){
-                    addMovieToTable(movie);
-                }
-                
-            },
-            "error":function(xhr,status,error){
-                console.log("error: "+status+" msg:"+error);
-            }
-        });
+            $.ajax({
+                "url": "/ChristmasMovies",
+                "method":"GET",
+                "data":"",
+                "dataType": "JSON",
+                "success":function(result){
+                    //console.log(result);
+                    for (movie of result){
+                        addMovieToTable(movie);
+                    }
 
-    }
-    function createMovieAjax(movie){
-        console.log(JSON.stringify(movie));
-        $.ajax({
-            "url": "http://127.0.0.1:5000/ChristmasMovies",
-            "method":"POST",
-            "data":JSON.stringify(movie),
-            "dataType": "JSON",
-            contentType: "application/json; charset=utf-8",
-            "success":function(result){
-                //console.log(result);
-                movie.id = result.id
-                addMovieToTable(movie)
-                clearForm()
-                showViewAll()
-            },
-            "error":function(xhr,status,error){
-                console.log("error: "+status+" msg:"+error);
-            }
-        });
-    }
-    function updateMovieAjax(movie){
-        console.log(JSON.stringify(movie));
-        $.ajax({
-            "url": "http://127.0.0.1:5000/ChristmasMovies/"+encodeURI(movie.id),
-            "method":"PUT",
-            "data":JSON.stringify(movie),
-            "dataType": "JSON",
-            contentType: "application/json; charset=utf-8",
-            "success":function(result){
-               // console.log(result);
-                  
-            },
-            "error":function(xhr,status,error){
-                console.log("error: "+status+" msg:"+error);
-            }
-        });
-    }
-    function deleteMovieAjax(id){
-        
-        //console.log(JSON.stringify('deleting '+id));
-        $.ajax({
-            "url": "http://127.0.0.1:5000/ChristmasMovies/"+encodeURI(id),
-            "method":"DELETE",
-            "data":"",
-            "dataType": "JSON",
-            contentType: "application/json; charset=utf-8",
-            "success":function(result){
-                //console.log(result);
-                  
-            },
-            "error":function(xhr,status,error){
-                console.log("error: "+status+" msg:"+error);
-            }
-        });
-    }
-    getAllAjax();
+                },
+                "error":function(xhr,status,error){
+                    console.log("error: "+status+" msg:"+error);
+                }
+            });
+
+        }
+        function createMovieAjax(movie){
+            console.log(JSON.stringify(movie));
+            $.ajax({
+                "url": "/ChristmasMovies",
+                "method":"POST",
+                "data":JSON.stringify(movie),
+                "dataType": "JSON",
+                contentType: "application/json; charset=utf-8",
+                "success":function(result){
+                    //console.log(result);
+                    movie.id = result.id
+                    addMovieToTable(movie)
+                    clearForm()
+                    showViewAll()
+                },
+                "error":function(xhr,status,error){
+                    console.log("error: "+status+" msg:"+error);
+                }
+            });
+        }
+        function updateMovieAjax(movie){
+            console.log(JSON.stringify(movie));
+            $.ajax({
+                "url": "/ChristmasMovies/"+encodeURI(movie.id),
+                "method":"PUT",
+                "data":JSON.stringify(movie),
+                "dataType": "JSON",
+                contentType: "application/json; charset=utf-8",
+                "success":function(result){
+                   // console.log(result);
+
+                },
+                "error":function(xhr,status,error){
+                    console.log("error: "+status+" msg:"+error);
+                }
+            });
+        }
+        function deleteMovieAjax(id){
+
+            //console.log(JSON.stringify('deleting '+id));
+            $.ajax({
+                "url": "/ChristmasMovies/"+encodeURI(id),
+                "method":"DELETE",
+                "data":"",
+                "dataType": "JSON",
+                contentType: "application/json; charset=utf-8",
+                "success":function(result){
+                    //console.log(result);
+
+                },
+                "error":function(xhr,status,error){
+                    console.log("error: "+status+" msg:"+error);
+                }
+            });
+        }
+        getAllAjax();
 
     </script>    
     </html>
