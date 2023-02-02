@@ -17,10 +17,7 @@ def findById(id):
     foundMovies = ChristmasMovieDao.findByID(id)
 
     return jsonify(foundMovies)
-    #foundMovies = list(filter(lambda t : t["id"]== id, ChristmasMovies))
-    #if len (foundMovies)==0:
-    #    return jsonify({}), 204
-    #return jsonify(foundMovies[0])
+    
 
 # create a new entry for Christmas movie
 @app.route('/ChristmasMovies', methods = ['POST'])
@@ -58,9 +55,11 @@ def UpdateById(id):
 
 
 # Find and entry in the christmas movie list by searching its id and then delete it
+#after a row is deleted auto increment is reset so that it goes back to the last row with an ID and starts to increment from there
 @app.route('/ChristmasMovies/<int:id>', methods=['DELETE'])
 def DeleteById(id):
     ChristmasMovieDao.delete(id)
+    ChristmasMovieDao.resetAutoIncrement()
     return jsonify({"done":True})
 
 if __name__ == "__main__":

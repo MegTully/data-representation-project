@@ -70,6 +70,7 @@ class ChristmasMovieDAO:
         cursor.execute(sql, values)
         self.connection.commit()
         self.closeAll()
+    
         
     def delete(self, id):
         cursor = self.getcursor()
@@ -82,6 +83,13 @@ class ChristmasMovieDAO:
         self.closeAll()
         
         print("delete complete")
+
+#Resets AutoIncrement back to the ID after the largest ID in the table
+    def resetAutoIncrement(self):
+        cursor = self.getcursor()
+        sql="ALTER TABLE `christmasmovies` AUTO_INCREMENT = 0"
+        cursor.execute(sql)
+        self.closeAll()
 
     def convertToDictionary(self, result):
         colnames=['id','title','genre']
@@ -121,6 +129,6 @@ if __name__ == "__main__":
     #ChristmasMovieDao.createdatabase()
     #ChristmasMovieDao.createtable()
 
-    data = ("Die Hard","Action")
+    data = ("The Holiday","Romantic/Comedy")
     ChristmasMovieDao.create(data)
     print("Done")
